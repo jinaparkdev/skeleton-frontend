@@ -19,7 +19,6 @@ export default defineConfig(async () => {
             path.resolve(__dirname, '../../packages')
         );
         for (const dirName of packages) {
-            if (dirName === 'create-react-admin') continue;
             const packageJson = JSON.parse(
                 fs.readFileSync(
                     path.resolve(

@@ -22,6 +22,7 @@
     "devDependencies": {
         "@hookform/devtools": "^4.3.3",
         "@types/node": "^24.1.0",
+        "@types/react-dom": "^19.1.7",
         "@vitejs/plugin-react": "^4.3.4",
         "little-state-machine": "^4.8.1",
         "react-simple-animate": "^3.5.3",
