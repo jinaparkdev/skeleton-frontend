@@ -1,9 +1,12 @@
 import * as React from 'react';
-import {Box, Button, Container, Paper, TextField, Typography} from '@mui/material';
+import {Box, Button, Container, Divider, Paper, TextField, Typography} from '@mui/material';
 import {Controller, useForm} from 'react-hook-form';
 import {AuthenticateCompanyRequest, CompanyService} from "../service/company";
 import {toast, ToastContainer} from 'react-toastify';
 import {HttpError} from "../util/http";
+import {useSetRecoilState} from 'recoil';
+import {currentCompanyState} from "../state/companyState";
+import {useNavigate} from "react-router";
 
 const Login = () => {
 
@@ -19,10 +22,14 @@ const Login = () => {
         }
     });
 
+    const setRecoilValue = useSetRecoilState(currentCompanyState);
+    const navigate = useNavigate();
+
     const onSubmit = async (data: AuthenticateCompanyRequest) => {
         await CompanyService.authenticate(data).then(response => {
-            // TODO 로그인 성공 후 처리
-            console.log('로그인 성공:', response);
+            localStorage.setItem('token', response.token);
+            setRecoilValue(response.company);
+            navigate('/mode');
         }).catch(error => {
             console.error('로그인 실패:', error.message);
 
@@ -115,7 +122,30 @@ const Login = () => {
                         >
                             로그인
                         </Button>
+                        <Box sx={{display: 'flex', gap: 1, mt: 1, alignItems: 'center', justifyContent: 'center'}}>
+                            <Button
+                                fullWidth
+                                variant="text"
+                                sx={{color: 'primary.dark'}}
+                                onClick={() => navigate('/signup')}
+                            >
+                                회원가입하기
+                            </Button>
+                            <Divider
+                                orientation="vertical"
+                                sx={{borderColor: 'grey.400', height: '24px'}}
+                            />
+                            <Button
+                                fullWidth
+                                variant="text"
+                                sx={{color: 'primary.dark'}}
+                                onClick={() => navigate('/forgot-password')}
+                            >
+                                비밀번호 찾기
+                            </Button>
+                        </Box>
                     </Box>
+
                 </Paper>
 
                 <ToastContainer/>

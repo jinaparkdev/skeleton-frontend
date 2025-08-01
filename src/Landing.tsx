@@ -12,6 +12,9 @@ import {
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {useNavigate} from 'react-router';
+import {useRecoilValue} from 'recoil';
+import {currentCompanyState} from "./state/companyState";
+import {useEffect} from 'react';
 
 const HeroSection = styled(Box)(() => ({
     minHeight: '100vh',
@@ -36,6 +39,14 @@ const FeatureCard = styled(Card)(() => ({
 const Landing = () => {
 
     const navigate = useNavigate();
+    const currentCompany = useRecoilValue(currentCompanyState);
+
+    useEffect(() => {
+        if (currentCompany) {
+            navigate('/mode');
+        }
+    }, [currentCompany, navigate]);
+
     return (
         <>
             {/* Header */}
