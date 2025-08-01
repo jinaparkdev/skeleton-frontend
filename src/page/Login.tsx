@@ -1,10 +1,10 @@
-import * as React from 'react';
-import {Box, Button, Container, Divider, Paper, TextField, Typography} from '@mui/material';
-import {Controller, useForm} from 'react-hook-form';
+import * as React from "react";
+import {Box, Button, Container, Divider, Paper, TextField, Typography} from "@mui/material";
+import {Controller, useForm} from "react-hook-form";
 import {AuthenticateCompanyRequest, CompanyService} from "../service/company";
-import {toast, ToastContainer} from 'react-toastify';
+import {toast, ToastContainer} from "react-toastify";
 import {HttpError} from "../util/http";
-import {useSetRecoilState} from 'recoil';
+import {useSetRecoilState} from "recoil";
 import {currentCompanyState} from "../state/companyState";
 import {useNavigate} from "react-router";
 
@@ -15,10 +15,10 @@ const Login = () => {
         handleSubmit,
         formState: {errors, isValid, isSubmitting}
     } = useForm<AuthenticateCompanyRequest>({
-        mode: 'onChange',
+        mode: "onChange",
         defaultValues: {
-            email: '',
-            password: ''
+            email: "",
+            password: ""
         }
     });
 
@@ -27,11 +27,11 @@ const Login = () => {
 
     const onSubmit = async (data: AuthenticateCompanyRequest) => {
         await CompanyService.authenticate(data).then(response => {
-            localStorage.setItem('token', response.token);
+            localStorage.setItem("token", response.token);
             setRecoilValue(response.company);
-            navigate('/mode');
+            navigate("/mode");
         }).catch(error => {
-            console.error('로그인 실패:', error.message);
+            console.error("로그인 실패:", error.message);
 
             if (error instanceof HttpError) {
                 toast.error(error.message, {
@@ -50,12 +50,12 @@ const Login = () => {
             <Box
                 sx={{
                     marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
                 }}
             >
-                <Paper elevation={3} sx={{padding: 4, width: '100%'}}>
+                <Paper elevation={3} sx={{padding: 4, width: "100%"}}>
                     <Typography component="h1" variant="h4" align="center" gutterBottom>
                         로그인
                     </Typography>
@@ -66,10 +66,10 @@ const Login = () => {
                             name="email"
                             control={control}
                             rules={{
-                                required: '이메일을 입력해주세요',
+                                required: "이메일을 입력해주세요",
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: '올바른 이메일 형식을 입력해주세요'
+                                    message: "올바른 이메일 형식을 입력해주세요"
                                 }
                             }}
                             render={({field}) => (
@@ -91,10 +91,10 @@ const Login = () => {
                             name="password"
                             control={control}
                             rules={{
-                                required: '비밀번호를 입력해주세요',
+                                required: "비밀번호를 입력해주세요",
                                 minLength: {
                                     value: 6,
-                                    message: '비밀번호는 최소 6자 이상이어야 합니다'
+                                    message: "비밀번호는 최소 6자 이상이어야 합니다"
                                 }
                             }}
                             render={({field}) => (
@@ -122,24 +122,24 @@ const Login = () => {
                         >
                             로그인
                         </Button>
-                        <Box sx={{display: 'flex', gap: 1, mt: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <Box sx={{display: "flex", gap: 1, mt: 1, alignItems: "center", justifyContent: "center"}}>
                             <Button
                                 fullWidth
                                 variant="text"
-                                sx={{color: 'primary.dark'}}
-                                onClick={() => navigate('/signup')}
+                                sx={{color: "primary.dark"}}
+                                onClick={() => navigate("/signup")}
                             >
                                 회원가입하기
                             </Button>
                             <Divider
                                 orientation="vertical"
-                                sx={{borderColor: 'grey.400', height: '24px'}}
+                                sx={{borderColor: "grey.400", height: "24px"}}
                             />
                             <Button
                                 fullWidth
                                 variant="text"
-                                sx={{color: 'primary.dark'}}
-                                onClick={() => navigate('/forgot-password')}
+                                sx={{color: "primary.dark"}}
+                                onClick={() => navigate("/forgot-password")}
                             >
                                 비밀번호 찾기
                             </Button>

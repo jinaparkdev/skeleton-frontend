@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { createRoot } from 'react-dom/client';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import { theme } from './theme';
-import Routes from './Routes';
+import * as React from "react";
+import { createRoot } from "react-dom/client";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { theme } from "./theme";
+import Routes from "./Routes";
 
-const container = document.getElementById('root') as HTMLElement;
+const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);
 
 const router = createBrowserRouter(Routes);

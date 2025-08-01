@@ -25,7 +25,7 @@ export interface AuthenticateCompanyResponse {
 }
 
 export class CompanyService {
-    private static readonly BASE_URL = '/company';
+    private static readonly BASE_URL = "/company";
 
     static async create(data: CreateCompanyRequest): Promise<Company> {
         return http.post<Company>(this.BASE_URL, data);
