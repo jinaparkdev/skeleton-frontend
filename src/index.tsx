@@ -1,27 +1,23 @@
-import * as React from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import { theme } from './theme';
-import Landing from './Landing';
+import * as React from "react";
+import { createRoot } from "react-dom/client";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { theme } from "./theme";
+import Routes from "./Routes";
 
-const container = document.getElementById('root') as HTMLElement;
+const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);
 
-const App = () => {
-    return <Landing />;
-};
+const router = createBrowserRouter(Routes);
 
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <RecoilRoot>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    <App />
-                </ThemeProvider>
-            </RecoilRoot>
-        </BrowserRouter>
+        <RecoilRoot>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <RouterProvider router={router} />
+            </ThemeProvider>
+        </RecoilRoot>
     </React.StrictMode>
 );

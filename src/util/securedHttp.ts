@@ -2,7 +2,7 @@ import {http} from "./http";
 
 export class SecuredHttp {
     private static addAuthHeader(headers: Record<string, string>): Record<string, string> {
-        return {...headers, Authorization: `Bearer ${localStorage.getItem('token')}`};
+        return {...headers, Authorization: `Bearer ${localStorage.getItem("token")}`};
     }
 
     static get<T>(url: string, headers: Record<string, string> = {}): Promise<T> {
