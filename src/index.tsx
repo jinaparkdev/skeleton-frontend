@@ -1,17 +1,27 @@
-/* eslint react/jsx-key: off */
 import * as React from 'react';
-import {createRoot} from 'react-dom/client';
-import Landing from "./Landing";
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { theme } from './theme';
+import Landing from './Landing';
 
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 
 const App = () => {
-    return <Landing/>;
-}
+    return <Landing />;
+};
 
 root.render(
     <React.StrictMode>
-        <App/>
+        <BrowserRouter>
+            <RecoilRoot>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <App />
+                </ThemeProvider>
+            </RecoilRoot>
+        </BrowserRouter>
     </React.StrictMode>
 );

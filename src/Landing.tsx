@@ -6,16 +6,13 @@ import {
     Card,
     CardContent,
     Container,
-    CssBaseline,
     Grid,
-    ThemeProvider,
     Toolbar,
     Typography,
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
-import {theme} from './theme';
 
-const HeroSection = styled(Box)(({theme}) => ({
+const HeroSection = styled(Box)(() => ({
     minHeight: '100vh',
     display: 'flex',
     alignItems: 'center',
@@ -25,7 +22,7 @@ const HeroSection = styled(Box)(({theme}) => ({
     backgroundPosition: 'center',
 }));
 
-const FeatureCard = styled(Card)(({theme}) => ({
+const FeatureCard = styled(Card)(() => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -37,9 +34,7 @@ const FeatureCard = styled(Card)(({theme}) => ({
 
 const Landing = () => {
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline/>
-
+        <>
             {/* Header */}
             <AppBar position="fixed">
                 <Toolbar>
@@ -71,7 +66,7 @@ const Landing = () => {
                                         onClick={() => {
                                             const featureSection = document.getElementById('features');
                                             if (featureSection) {
-                                                featureSection.scrollIntoView({ behavior: 'smooth' });
+                                                featureSection.scrollIntoView({behavior: 'smooth'});
                                             }
                                         }}
                                 >
@@ -93,7 +88,8 @@ const Landing = () => {
                         무료로 제공하는 핵심 서비스들을 확인해보세요
                     </Typography>
 
-                    <Grid container spacing={4} sx={{mt: 4}} justifyContent="center" alignItems="center">
+                    <Grid container spacing={4} sx={{mt: 4}} justifyContent="center"
+                          alignItems="center">
                         {[
                             {
                                 title: '회원 관리',
@@ -129,7 +125,7 @@ const Landing = () => {
                     </Typography>
                 </Container>
             </Box>
-        </ThemeProvider>
+        </>
     );
 };
 
