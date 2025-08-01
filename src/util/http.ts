@@ -1,6 +1,6 @@
 export class http {
-    private static readonly BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
-    private static readonly TIMEOUT = Number(process.env.REACT_APP_API_TIMEOUT) || 5000;
+    private static readonly BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+    private static readonly TIMEOUT = Number(import.meta.env.VITE_API_TIMEOUT) || 5000;
 
     private static async request<T>(method: string, url: string, body?: any, headers: Record<string, string> = {}): Promise<T> {
         const fullUrl = url.startsWith('http') ? url : `${this.BASE_URL}${url}`;
