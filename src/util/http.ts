@@ -22,8 +22,14 @@ export class http {
             clearTimeout(timeoutId);
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                if (response.status === 401) {
+                    throw new UnauthorizedError();
+                }
+
+                const errorText = await response.text();
+                throw new HttpError(errorText || 'An error occurred', response.status);
             }
+
             return response.json();
         } catch (error) {
             clearTimeout(timeoutId);
@@ -45,5 +51,20 @@ export class http {
 
     static delete<T>(url: string, headers: Record<string, string> = {}): Promise<T> {
         return this.request<T>('DELETE', url, undefined, headers);
+    }
+}
+
+export class HttpError extends Error {
+    status: number;
+
+    constructor(message: string, status: number) {
+        super(message);
+        this.status = status;
+    }
+}
+
+export class UnauthorizedError extends HttpError {
+    constructor(message: string = "Unauthorized access. Please log in again.") {
+        super(message, 401);
     }
 }
