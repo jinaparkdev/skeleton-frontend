@@ -11,6 +11,7 @@ import {
     Typography,
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
+import {useNavigate} from 'react-router';
 
 const HeroSection = styled(Box)(() => ({
     minHeight: '100vh',
@@ -33,12 +34,16 @@ const FeatureCard = styled(Card)(() => ({
 }));
 
 const Landing = () => {
+
+    const navigate = useNavigate();
     return (
         <>
             {/* Header */}
             <AppBar position="fixed">
                 <Toolbar>
-                    <Button sx={{marginLeft: 'auto'}} color="inherit">로그인</Button>
+                    <Button sx={{marginLeft: 'auto'}} color="inherit"
+                            onClick={() => navigate('/login')}
+                    >로그인</Button>
                 </Toolbar>
             </AppBar>
 
@@ -46,7 +51,7 @@ const Landing = () => {
             <HeroSection>
                 <Container>
                     <Grid container spacing={4} alignItems="center">
-                        <Grid item xs={12} md={12}>
+                        <Grid size={{xs: 12, md: 12}}>
                             <Typography variant="h2" gutterBottom>
                                 Hub-T:<br/>한 잔의 차처럼 편안하게
                             </Typography>
@@ -58,6 +63,7 @@ const Landing = () => {
                                     variant="contained"
                                     size="large"
                                     sx={{mr: 2}}
+                                    onClick={() => navigate('/login')}
                                 >
                                     시작하기
                                 </Button>
@@ -84,7 +90,7 @@ const Landing = () => {
                     <Typography variant="h3" component="h2" align="center" gutterBottom>
                         주요 기능
                     </Typography>
-                    <Typography variant="h6" align="center" color="text.secondary" paragraph>
+                    <Typography variant="h6" align="center" color="text.secondary">
                         무료로 제공하는 핵심 서비스들을 확인해보세요
                     </Typography>
 
@@ -100,17 +106,16 @@ const Landing = () => {
                                 description: '다양한 멤버십 옵션을 제공하고 관리할 수 있습니다.',
                             },
                         ].map((feature, index) => (
-                            <Grid item xs={12} md={4} key={index}>
-                                <FeatureCard>
-                                    <CardContent>
-                                        <Typography variant="h5" component="h3" gutterBottom>
-                                            {feature.title}
-                                        </Typography>
-                                        <Typography color="text.secondary">
-                                            {feature.description}
-                                        </Typography>
-                                    </CardContent>
-                                </FeatureCard>
+                            <Grid size={{xs: 12, md: 4}} key={index}> <FeatureCard>
+                                <CardContent>
+                                    <Typography variant="h5" component="h3" gutterBottom>
+                                        {feature.title}
+                                    </Typography>
+                                    <Typography color="text.secondary">
+                                        {feature.description}
+                                    </Typography>
+                                </CardContent>
+                            </FeatureCard>
                             </Grid>
                         ))}
                     </Grid>

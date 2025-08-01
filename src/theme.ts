@@ -61,5 +61,14 @@ export const theme = createTheme({
                 },
             },
         },
+        MuiPaper:{
+            styleOverrides: {
+                root: {
+                    border: '1px solid rgba(0, 0, 0, 0.12)',
+                    boxShadow: 'none',
+                    backgroundColor: '#ffffff',
+                },
+            },
+        }
     },
 });
