@@ -2,6 +2,8 @@ import * as React from 'react';
 import {Box, Button, Container, Paper, TextField, Typography} from '@mui/material';
 import {Controller, useForm} from 'react-hook-form';
 import {AuthenticateCompanyRequest, CompanyService} from "../service/company";
+import {toast, ToastContainer} from 'react-toastify';
+import {HttpError} from "../util/http";
 
 const Login = () => {
 
@@ -22,11 +24,18 @@ const Login = () => {
             // TODO 로그인 성공 후 처리
             console.log('로그인 성공:', response);
         }).catch(error => {
-            // TODO 로그인 실패 처리
-            console.error('로그인 실패:', error);
-        }).finally(() => {
+            console.error('로그인 실패:', error.message);
 
-        })
+            if (error instanceof HttpError) {
+                toast.error(error.message, {
+                    position: "bottom-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    theme: "dark",
+                });
+                return;
+            }
+        });
     };
 
     return (
@@ -108,6 +117,8 @@ const Login = () => {
                         </Button>
                     </Box>
                 </Paper>
+
+                <ToastContainer/>
             </Box>
         </Container>
     );
