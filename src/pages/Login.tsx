@@ -1,12 +1,13 @@
 import * as React from "react";
+import {useEffect} from "react";
 import {Box, Button, Container, Divider, Paper, TextField, Typography} from "@mui/material";
 import {Controller, useForm} from "react-hook-form";
-import {AuthenticateCompanyRequest, CompanyService} from "../service/company";
 import {toast, ToastContainer} from "react-toastify";
 import {HttpError} from "../util/http";
-import {useSetRecoilState} from "recoil";
+import {useRecoilState} from "recoil";
 import {currentCompanyState} from "../state/companyState";
 import {useNavigate} from "react-router";
+import {AuthRequest, AuthService} from "../service/auth";
 
 const Login = () => {
 
@@ -14,7 +15,7 @@ const Login = () => {
         control,
         handleSubmit,
         formState: {errors, isValid, isSubmitting}
-    } = useForm<AuthenticateCompanyRequest>({
+    } = useForm<AuthRequest>({
         mode: "onChange",
         defaultValues: {
             email: "",
@@ -22,13 +23,13 @@ const Login = () => {
         }
     });
 
-    const setRecoilValue = useSetRecoilState(currentCompanyState);
+    const [currentCompany, setCurrentCompany] = useRecoilState(currentCompanyState);
     const navigate = useNavigate();
 
-    const onSubmit = async (data: AuthenticateCompanyRequest) => {
-        await CompanyService.authenticate(data).then(response => {
+    const onSubmit = async (data: AuthRequest) => {
+        await AuthService.authenticate(data).then(response => {
             localStorage.setItem("token", response.token);
-            setRecoilValue(response.company);
+            setCurrentCompany(response.company);
             navigate("/mode");
         }).catch(error => {
             console.error("로그인 실패:", error.message);
@@ -44,6 +45,12 @@ const Login = () => {
             }
         });
     };
+
+    useEffect(() => {
+        if (currentCompany) {
+            navigate("/mode");
+        }
+    }, []);
 
     return (
         <Container component="main" maxWidth="xs">
@@ -122,7 +129,13 @@ const Login = () => {
                         >
                             로그인
                         </Button>
-                        <Box sx={{display: "flex", gap: 1, mt: 1, alignItems: "center", justifyContent: "center"}}>
+                        <Box sx={{
+                            display: "flex",
+                            gap: 1,
+                            mt: 1,
+                            alignItems: "center",
+                            justifyContent: "center"
+                        }}>
                             <Button
                                 fullWidth
                                 variant="text"
