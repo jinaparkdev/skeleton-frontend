@@ -14,7 +14,6 @@ import {styled} from "@mui/material/styles";
 import {useNavigate} from "react-router";
 import {useRecoilValue} from "recoil";
 import {currentCompanyState} from "./state/companyState";
-import {useEffect} from "react";
 
 const HeroSection = styled(Box)(() => ({
     minHeight: "100vh",
@@ -41,20 +40,16 @@ const Landing = () => {
     const navigate = useNavigate();
     const currentCompany = useRecoilValue(currentCompanyState);
 
-    useEffect(() => {
-        if (currentCompany) {
-            navigate("/mode");
-        }
-    }, [currentCompany, navigate]);
-
     return (
         <>
             {/* Header */}
             <AppBar position="fixed">
                 <Toolbar>
                     <Button sx={{marginLeft: "auto"}} color="inherit"
-                            onClick={() => navigate("/login")}
-                    >로그인</Button>
+                            onClick={() => navigate(currentCompany ? "/mode" : "/login")}
+                    >
+                        {currentCompany ? "내 대시보드" : "로그인"}
+                    </Button>
                 </Toolbar>
             </AppBar>
 
@@ -74,7 +69,7 @@ const Landing = () => {
                                     variant="contained"
                                     size="large"
                                     sx={{mr: 2}}
-                                    onClick={() => navigate("/login")}
+                                    onClick={() => navigate(currentCompany ? "/mode" : "/login")}
                                 >
                                     시작하기
                                 </Button>
