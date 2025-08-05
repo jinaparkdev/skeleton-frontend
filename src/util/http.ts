@@ -4,17 +4,13 @@ export class http {
 
     private static async request<T>(method: string, url: string, body?: any, headers: Record<string, string> = {}): Promise<T> {
         const fullUrl = url.startsWith("http") ? url : `${this.BASE_URL}${url}`;
-
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), this.TIMEOUT);
 
         try {
             const response = await fetch(fullUrl, {
                 method,
-                headers: {
-                    "Content-Type": "application/json",
-                    ...headers,
-                },
+                headers: { "Content-Type": "application/json", ...headers },
                 body: body ? JSON.stringify(body) : undefined,
                 signal: controller.signal,
             });
@@ -22,18 +18,41 @@ export class http {
             clearTimeout(timeoutId);
 
             if (!response.ok) {
-                if (response.status === 401) {
-                    throw new UnauthorizedError();
-                }
-
                 const errorText = await response.text();
-                throw new HttpError(errorText || "An error occurred", response.status);
+                throw response.status === 401
+                    ? new UnauthorizedError()
+                    : new HttpError(errorText || "An error occurred", response.status);
             }
 
             return response.json();
-        } catch (error) {
+        } finally {
             clearTimeout(timeoutId);
-            throw error;
+        }
+    }
+
+    private static async requestWithoutResponse(method: string, url: string, body?: any, headers: Record<string, string> = {}): Promise<void> {
+        const fullUrl = url.startsWith("http") ? url : `${this.BASE_URL}${url}`;
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), this.TIMEOUT);
+
+        try {
+            const response = await fetch(fullUrl, {
+                method,
+                headers: { "Content-Type": "application/json", ...headers },
+                body: body ? JSON.stringify(body) : undefined,
+                signal: controller.signal,
+            });
+
+            clearTimeout(timeoutId);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw response.status === 401
+                    ? new UnauthorizedError()
+                    : new HttpError(errorText || "An error occurred", response.status);
+            }
+        } finally {
+            clearTimeout(timeoutId);
         }
     }
 
@@ -52,6 +71,18 @@ export class http {
     static delete<T>(url: string, headers: Record<string, string> = {}): Promise<T> {
         return this.request<T>("DELETE", url, undefined, headers);
     }
+
+    static async head(url: string, headers: Record<string, string> = {}): Promise<boolean> {
+        try {
+            await this.requestWithoutResponse("HEAD", url, undefined, headers);
+            return true;
+        } catch (error) {
+            if (error instanceof HttpError && error.status === 409) {
+                return false;
+            }
+            throw error;
+        }
+    }
 }
 
 export class HttpError extends Error {
@@ -64,7 +95,7 @@ export class HttpError extends Error {
 }
 
 export class UnauthorizedError extends HttpError {
-    constructor(message: string = "Unauthorized access. Please log in again.") {
+    constructor(message: string = "로그인이 필요한 서비스입니다.") {
         super(message, 401);
     }
 }

@@ -1,5 +1,5 @@
 import {http} from "../util/http";
-import {SecuredHttp} from "../util/securedHttp";
+import {securedHttp} from "../util/securedHttp";
 import {Company} from "./company";
 
 export interface AuthResponse {
@@ -20,6 +20,6 @@ export class AuthService {
     }
 
     static async current(): Promise<AuthResponse> {
-        return SecuredHttp.post<AuthResponse>(`${this.BASE_URL}/current`, undefined);
+        return securedHttp.post<AuthResponse>(`${this.BASE_URL}/current`, undefined);
     }
 }

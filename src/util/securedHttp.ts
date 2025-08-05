@@ -1,8 +1,9 @@
 import {http} from "./http";
 
-export class SecuredHttp {
+export class securedHttp {
     private static addAuthHeader(headers: Record<string, string>): Record<string, string> {
-        return {...headers, Authorization: `Bearer ${localStorage.getItem("token")}`};
+        //TODO 토큰 키 값 환경변수로 관리
+        return {...headers, Authorization: `Bearer ${localStorage.getItem("hubt.login.token")}`};
     }
 
     static get<T>(url: string, headers: Record<string, string> = {}): Promise<T> {
@@ -19,5 +20,9 @@ export class SecuredHttp {
 
     static delete<T>(url: string, headers: Record<string, string> = {}): Promise<T> {
         return http.delete<T>(url, this.addAuthHeader(headers));
+    }
+
+    static head(url: string, headers: Record<string, string> = {}): Promise<boolean> {
+        return http.head(url, this.addAuthHeader(headers));
     }
 }
