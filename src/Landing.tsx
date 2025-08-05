@@ -20,7 +20,7 @@ const HeroSection = styled(Box)(() => ({
     display: "flex",
     alignItems: "center",
     color: "white",
-    backgroundImage: "url(assets/image/landing_sub.jpg)",
+    backgroundImage: "url(/assets/image/landing_sub.jpg)", // 경로를 절대경로로 수정
     backgroundSize: "cover",
     backgroundPosition: "center",
 }));
