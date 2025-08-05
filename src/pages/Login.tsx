@@ -28,7 +28,8 @@ const Login = () => {
 
     const onSubmit = async (data: AuthRequest) => {
         await AuthService.authenticate(data).then(response => {
-            localStorage.setItem("token", response.token);
+            //TODO 토큰 키 값 환경변수로 관리
+            localStorage.setItem("hubt.login.token", response.token);
             setCurrentCompany(response.company);
             navigate("/mode");
         }).catch(error => {
