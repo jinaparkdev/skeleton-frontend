@@ -8,17 +8,17 @@ import Routes from "./routes/Routes";
 import {theme} from "./theme";
 
 const App = () => {
-
-    return (
-        <React.StrictMode>
-            <RecoilRoot>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline/>
-                    <RouterProvider router={createBrowserRouter(Routes)}/>
-                </ThemeProvider>
-            </RecoilRoot>
-        </React.StrictMode>
+    const AppContent = (
+        <RecoilRoot>
+            <ThemeProvider theme={theme}>
+                <CssBaseline/>
+                <RouterProvider router={createBrowserRouter(Routes)}/>
+            </ThemeProvider>
+        </RecoilRoot>
     );
-}
+
+    return import.meta.env.MODE === "production" ? AppContent :
+        <React.StrictMode>{AppContent}</React.StrictMode>;
+};
 
 export default App;
