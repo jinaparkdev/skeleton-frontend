@@ -10,7 +10,7 @@ export class http {
         try {
             const response = await fetch(fullUrl, {
                 method,
-                headers: { "Content-Type": "application/json", ...headers },
+                headers: {"Content-Type": "application/json", ...headers},
                 body: body ? JSON.stringify(body) : undefined,
                 signal: controller.signal,
             });
@@ -38,7 +38,7 @@ export class http {
         try {
             const response = await fetch(fullUrl, {
                 method,
-                headers: { "Content-Type": "application/json", ...headers },
+                headers: {"Content-Type": "application/json", ...headers},
                 body: body ? JSON.stringify(body) : undefined,
                 signal: controller.signal,
             });
@@ -70,6 +70,14 @@ export class http {
 
     static delete<T>(url: string, headers: Record<string, string> = {}): Promise<T> {
         return this.request<T>("DELETE", url, undefined, headers);
+    }
+
+    static postWithoutResponse(url: string, body: any, headers: Record<string, string> = {}): Promise<void> {
+        return this.requestWithoutResponse("POST", url, body, headers);
+    }
+
+    static putWithoutResponse(url: string, body: any, headers: Record<string, string> = {}): Promise<void> {
+        return this.requestWithoutResponse("PUT", url, body, headers);
     }
 
     static async head(url: string, headers: Record<string, string> = {}): Promise<boolean> {
