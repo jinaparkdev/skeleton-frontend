@@ -22,10 +22,18 @@ export class CompanyService {
     }
 
     static async isAvailablePhone(phone: string): Promise<boolean> {
-        return http.head(`${this.BASE_URL}/available/phone/${encodeURIComponent(phone)}`)
+        return http.head(`${this.BASE_URL}/availability/phone/${encodeURIComponent(phone)}`)
     }
 
     static async isAvailableEmail(email: string): Promise<boolean> {
-        return http.head(`${this.BASE_URL}/available/email/${encodeURIComponent(email)}`)
+        return http.head(`${this.BASE_URL}/availability/email/${encodeURIComponent(email)}`)
+    }
+
+    static async sendResetPasswordEmail(email: string): Promise<void> {
+        return http.postWithoutResponse(`${this.BASE_URL}/recovery/password`, {email});
+    }
+
+    static async resetPassword(token: string, password: string): Promise<void> {
+        return http.putWithoutResponse(`${this.BASE_URL}/recovery/password/${token}`, {password});
     }
 }

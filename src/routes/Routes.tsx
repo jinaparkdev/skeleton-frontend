@@ -1,10 +1,13 @@
-import { RouteObject } from "react-router-dom";
+import {RouteObject} from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Landing from "../Landing";
 import SelectMode from "../pages/SelectMode";
 import React from "react";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
+import PasswordFinder from "../pages/PasswordFinder";
+import PasswordSetter from "../pages/PasswordSetter";
+import NotFound from "../pages/NotFond";
 
 const Routes: RouteObject[] = [
     {
@@ -26,6 +29,18 @@ const Routes: RouteObject[] = [
                 <SelectMode/>
             </ProtectedRoute>
         )
+    },
+    {
+        path: "/recovery/password",
+        element: <PasswordFinder/>,
+    },
+    {
+        path: "/recovery/password/:token",
+        element: <PasswordSetter/>,
+    },
+    {
+        path: "*",
+        element: <NotFound/>,
     }
 ];
 

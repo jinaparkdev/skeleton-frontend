@@ -13,13 +13,16 @@ export interface AuthRequest {
 }
 
 export class AuthService {
-    private static readonly BASE_URL = "/auth";
 
-    static async authenticate(data: AuthRequest): Promise<AuthResponse> {
-        return http.post<AuthResponse>(`${this.BASE_URL}`, data);
+    static async singIn(data: AuthRequest): Promise<AuthResponse> {
+        return http.post<AuthResponse>(`/signin`, data);
     }
 
     static async current(): Promise<AuthResponse> {
-        return securedHttp.post<AuthResponse>(`${this.BASE_URL}/current`, undefined);
+        return securedHttp.post<AuthResponse>(`/current`, undefined);
+    }
+
+    static async signOut(): Promise<void> {
+        return securedHttp.post<void>(`/signout`, undefined);
     }
 }
